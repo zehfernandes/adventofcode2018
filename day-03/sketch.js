@@ -80,9 +80,12 @@ const sketch = async () => {
   // ];
 
   let grid = Object.create(null);
+  let overlaps = [];
+  let mult = 1;
 
   return ({ p5, time, width, height }) => {
-    p5.background(0);
+    //p5.blendMode(p5.HARD_LIGHT);
+    p5.background("#000");
     p5.noStroke();
 
     for (let i = 0; i < input.length; i++) {
@@ -94,8 +97,31 @@ const sketch = async () => {
         shape.width,
         shape.height
       );
-      p5.fill(255, 0, 0, 127);
-      p5.rect(rectA.x, rectA.y, rectA.w, rectA.h);
+      //p5.fill(0, 0, 0, 0);
+      //p5.fill("#000");
+      //p5.noStroke();
+      //p5.rect(rectA.x * mult, rectA.y * mult, rectA.w * mult, rectA.h * mult);
+      p5.strokeWeight(2);
+      p5.stroke("#00D5FC");
+      p5.noFill();
+      p5.rect(
+        rectA.x * mult,
+        rectA.y * mult,
+        rectA.w * mult,
+        rectA.h * mult,
+        10
+      );
+
+      p5.blendMode(p5.LIGHTEST);
+      p5.stroke(p5.alpha("#0058AC", 0.1));
+      p5.rect(
+        (rectA.x + 0.5) * mult,
+        (rectA.y + 0.5) * mult,
+        rectA.w * mult,
+        rectA.h * mult,
+        10
+      );
+      p5.blendMode(p5.NORMAL);
 
       for (let j = i + 1; j < input.length; j++) {
         let shapeB = input[j];
@@ -105,17 +131,22 @@ const sketch = async () => {
         );
 
         if (rectB != null) {
-          p5.fill(255, 255, 0);
-          p5.rect(rectB.x, rectB.y, rectB.w, rectB.h);
-
-          for (let x = rectB.x; x < rectB.x + rectB.w; x++) {
-            for (let y = rectB.y; y < rectB.y + rectB.h; y++) {
-              grid[`${x},${y}`] = 1;
-            }
-          }
+          overlaps.push(rectB);
         }
       }
     }
+
+    overlaps.map(elem => {
+      p5.noStroke();
+      p5.fill("#000");
+      p5.rect(
+        elem.x * mult - 2 * mult / 2,
+        elem.y * mult - 2 * mult / 2,
+        elem.w * mult + 2 * mult,
+        elem.h * mult + 2 * mult,
+        10
+      );
+    });
 
     console.log(Object.values(grid).filter(v => v == 1).length);
   };
