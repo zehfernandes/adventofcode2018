@@ -15,11 +15,13 @@ class Rect {
   }
 }
 
-//   p2min        p2max
-//     .------------.
-//     |       |
-// .-----------.
-// p1min    p1max
+/*   
+p2min        p2max
+     .------------.
+     |       |
+.-----------.
+p1min    p1max 
+*/
 function overlap1d(p1min, p1max, p2min, p2max) {
   var intersects = p1max >= p2min && p2max >= p1min;
 

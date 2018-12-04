@@ -6,7 +6,7 @@ const { parser, getShapes } = require("./index.js");
 let data;
 
 const preload = p5 => {
-  data = p5.loadStrings("./day-03/inputs/input-1.txt");
+  data = p5.loadStrings("./day-03/inputs/input-2.txt");
 };
 
 const settings = {
@@ -20,22 +20,15 @@ const sketch = async () => {
 
   // Parameters
   let mult = 1;
-  let colors = [[0, 79, 170, 255], [255, 205, 0, 255], [255, 0, 16, 255]];
 
-  return ({ p5, time, width, height }) => {
-    //p5.blendMode(p5.HARD_LIGHT);
-    p5.background("#fff");
-    p5.noStroke();
-
-    shapes.map(sq => {
-      p5.noStroke();
-      p5.fill(0, 0, 0);
-      p5.rect(sq.x * mult, sq.y * mult, sq.w * mult, sq.h * mult);
-    });
+  return ({ p5 }) => {
+    p5.blendMode(p5.HARD_LIGHT);
+    p5.background("#000");
+    p5.noFill();
 
     overlapShapes.map(elem => {
-      p5.noStroke();
-      p5.fill("#fff");
+      p5.strokeWeight(1);
+      p5.stroke("#00D5FC");
       p5.rect(elem.x * mult, elem.y * mult, elem.w * mult, elem.h * mult);
     });
   };
